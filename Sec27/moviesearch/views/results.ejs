@@ -2,8 +2,11 @@
 
 <ul>
 	<% data["Search"].forEach(function(movie){ %>
-		<li> <strong><%= movie["Title"] %></strong> - <%= movie["Year"] %> </li>
+		<li>
+			<strong> 
+				<%= movie["Title"] %>
+			</strong>
+			- <%= movie["Year"] %> </li>
 	<% }); %>
 </ul>
 
-<a href="/">Search Again!</a>
