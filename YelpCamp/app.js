@@ -1,37 +1,62 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+var express = require('express'),
+	app = express(),
+	bodyParser = require('body-parser'),
+	mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost:27017/yelp_camp', {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine','ejs');
 
-var campgrounds = [
-	{name: 'Helmand Province Hills', image:'https://images.pexels.com/photos/1687845/pexels-photo-1687845.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260'},
-	{name: 'South Sudan Sunset', image:'https://images.pexels.com/photos/1376960/pexels-photo-1376960.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260'},
-	{name: 'Alaska Mountain', image:'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260'}
-];
+// SCHEMA SETUP
+var campgroundSchema = new mongoose.Schema({
+	name: String,
+	image: String,
+	description: String
+});
+
+var Campground = mongoose.model('Campground', campgroundSchema);
+
+
+
+// ROUTES
 
 
 app.get('/', function(req,res){
 	res.render('landing');
 });
 
+// INDEX - show all campgrounds
 app.get('/campgrounds', function(req,res){
-	res.render('campgrounds',{campgrounds: campgrounds});
+	// Get all campgrounds from DB
+	Campground.find({}, (err, allCampgrounds) => {
+		err ? console.log(err) : res.render('index',{campgrounds: allCampgrounds});
+	})
 });
 
+// CREATE - create new campgrounds
 app.post('/campgrounds', function(req,res){
 	var name = req.body.name;
 	var image = req.body.image;
-	var newCampground = {name: name, image: image};
-	campgrounds.push(newCampground);
-	res.redirect('/campgrounds');
+	var description = req.body.description;
+	var newCampground = {name: name, image: image, description: description};
+	// Create new campground and save to database
+	Campground.create(newCampground, (err, newlyCreated) => {
+		err ? console.log(err) : res.redirect('/campgrounds');
+	})
 });
 
+// NEW - show form
 app.get('/campgrounds/new', function(req,res){
 	res.render('new.ejs');
 });
 
+// SHOW - show a specific campground
+app.get('/campgrounds/:id', (req,res) => {
+	// find campground with provided ID
+	Campground.findById(req.params.id, (err, foundCampground) => {
+		err ? console.log(err) : res.render('show', {campground: foundCampground})
+	});
+});
 
 
 
