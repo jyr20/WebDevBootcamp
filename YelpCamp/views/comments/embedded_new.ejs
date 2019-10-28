@@ -1,0 +1,20 @@
+<form action="/campgrounds/<%=campground._id%>/comments" method='POST'>
+	<div class="row">
+		<div class="col-md-12">
+			<div>
+				Leave a comment as
+				<strong><%= currentUser.username%></strong>
+			</div>
+			<p>
+			<div class="col-xs-10">
+			<input class='form-control' type="text" name='comment[text]' placeholder='New comment'>
+			</div>
+			<div class="col-xs-2">
+			<span class="pull-right">
+				<button class="btn btn-success">Submit</button>
+			</span>
+			</div>
+			</p>
+		</div>
+	</div>
+</form>

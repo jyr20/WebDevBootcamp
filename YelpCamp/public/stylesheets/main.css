@@ -1,3 +1,16 @@
+#user-name {
+	text-transform: capitalize;
+}
+
+#admin{
+	color:red;
+	font-weight: bold;
+}
+
+textarea {
+	width: 100%;
+}
+
 .thumbnail img {
 	width:100%;
 }
@@ -12,4 +25,14 @@
 
 .delete-form {
 	display: inline;
+}
+
+span.name {
+	color: #005;
+	font-style: italic;
+}
+
+span.meta {
+	color: #333;
+	font-style: italic;
 }
