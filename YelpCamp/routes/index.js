@@ -58,7 +58,7 @@ router.get('/logout', (req,res)=>{
 });
 
 // Forgot password route
-router.get('/forgot', (res,res)=>{
+router.get('/forgot', (req,res)=>{
 	res.render('forgot');
 });
 
